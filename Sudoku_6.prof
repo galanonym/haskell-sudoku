@@ -1,0 +1,180 @@
+	Tue Nov  3 12:38 2020 Time and Allocation Profiling Report  (Final)
+
+	   Sudoku +RTS -p -RTS
+
+	total time  =        0.47 secs   (474 ticks @ 1000 us, 1 processor)
+	total alloc = 818,649,584 bytes  (excludes profiling overheads)
+
+COST CENTRE              MODULE    SRC                         %time %alloc
+
+replaceCell.(...)        Solver    Solver.hs:110:9-49           14.6   28.5
+getKvadrant              Solver    Solver.hs:63:1-73            13.5   10.6
+validateField            Solver    Solver.hs:(115,1)-(116,61)   11.4    5.6
+findCellWithCursor       Solver    Solver.hs:93:1-57            10.5    7.0
+cellToKvadrant           Solver    Solver.hs:60:1-65             6.8    5.1
+validateField.ints       Solver    Solver.hs:116:9-61            5.9    4.5
+nextNotPrefilledCell     Solver    Solver.hs:139:1-115           5.1    4.4
+replaceCell.cs'          Solver    Solver.hs:111:9-37            3.8   12.9
+previousNotPrefilledCell Solver    Solver.hs:136:1-109           3.8    2.2
+unValue                  Cell      Cell.hs:8:5-11                3.4    0.0
+isOver9Board             Solver    Solver.hs:133:1-52            2.7    2.0
+isNo0OnBoard             Solver    Solver.hs:151:1-51            2.3    1.3
+validateCell             Solver    Solver.hs:119:1-77            1.7    1.5
+every                    Solver    Solver.hs:(44,1)-(46,10)      1.7    1.4
+cellsToInts              Solver    Solver.hs:77:1-25             1.7    6.2
+unCursor                 Cell      Cell.hs:4:5-12                1.5    0.0
+unPositionX              Cell      Cell.hs:6:5-15                1.3    0.0
+getRow                   Solver    Solver.hs:(26,1)-(29,38)      0.8    2.7
+replaceCell              Solver    Solver.hs:(106,1)-(111,37)    0.6    1.3
+
+
+                                                                                                     individual      inherited
+COST CENTRE                    MODULE                  SRC                        no.     entries  %time %alloc   %time %alloc
+
+MAIN                           MAIN                    <built-in>                 121          0    0.0    0.0   100.0  100.0
+ CAF                           Cell                    <entire-module>            241          0    0.0    0.0     0.0    0.0
+  intsToCells                  Cell                    Cell.hs:43:1-61            247          1    0.0    0.0     0.0    0.0
+ CAF                           Solver                  <entire-module>            240          0    0.0    0.0     0.0    0.0
+  cellsToInts                  Solver                  Solver.hs:77:1-25          266          1    0.0    0.0     0.0    0.0
+  findCellWithCursor           Solver                  Solver.hs:93:1-57          276          1    0.0    0.0     0.0    0.0
+  isCursor                     Solver                  Solver.hs:73:1-59          288          1    0.0    0.0     0.0    0.0
+  isOver9Board                 Solver                  Solver.hs:133:1-52         259          1    0.0    0.0     0.0    0.0
+ CAF                           Main                    <entire-module>            239          0    0.0    0.0     0.0    0.0
+  main                         Main                    Sudoku.hs:(6,1)-(10,22)    242          1    0.0    0.0     0.0    0.0
+ CAF                           GHC.Conc.Signal         <entire-module>            230          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Encoding         <entire-module>            219          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Encoding.Iconv   <entire-module>            217          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Exception        <entire-module>            211          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Handle.FD        <entire-module>            209          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Handle.Internals <entire-module>            208          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.Show                <entire-module>            193          0    0.0    0.0     0.0    0.0
+ CAF                           System.Posix.Internals  <entire-module>            181          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.FD               <entire-module>            148          0    0.0    0.0     0.0    0.0
+ main                          Main                    Sudoku.hs:(6,1)-(10,22)    243          0    0.0    0.0   100.0  100.0
+  showsPrec                    Cell                    Cell.hs:9:15-18            375         81    0.2    0.1     0.2    0.1
+  main.ints                    Main                    Sudoku.hs:8:7-30           256          1    0.0    0.0     0.0    0.0
+   inputToInts                 Main                    Sudoku.hs:26:1-70          257          1    0.0    0.0     0.0    0.0
+    inputToInts.\              Main                    Sudoku.hs:26:50-66         258        110    0.0    0.0     0.0    0.0
+  main.solved                  Main                    Sudoku.hs:9:7-39           244          1    0.0    0.0    99.8   99.9
+   solve                       Solver                  Solver.hs:(154,1)-(157,55) 245       8366    0.2    0.0    99.6   99.8
+    nextBoard                  Solver                  Solver.hs:(125,1)-(130,31) 262      41809    0.6    0.6    76.6   76.0
+     nextBoard.c               Solver                  Solver.hs:128:9-33         275      41809    0.0    0.0     9.5    5.8
+      findCellWithCursor       Solver                  Solver.hs:93:1-57          277          0    8.9    5.8     9.5    5.8
+       unCursor                Cell                    Cell.hs:4:5-12             313    1380556    0.6    0.0     0.6    0.0
+     nextBoard.c'              Solver                  Solver.hs:129:9-28         273      41809    0.0    0.0     1.3    0.6
+      incrementCell            Solver                  Solver.hs:103:1-47         274      41809    0.8    0.6     1.3    0.6
+       unValue                 Cell                    Cell.hs:8:5-11             326      41809    0.4    0.0     0.4    0.0
+     nextBoard.cs'             Solver                  Solver.hs:130:9-31         315      41809    0.0    0.0    16.7   31.0
+      replaceCell              Solver                  Solver.hs:(106,1)-(111,37) 316      41809    0.6    0.9    16.7   31.0
+       replaceCell.(...)       Solver                  Solver.hs:110:9-49         319      41809   11.6   20.5    11.6   20.5
+       replaceCell.beginning   Solver                  Solver.hs:110:9-49         318      41809    0.0    0.0     0.0    0.0
+       replaceCell.cs'         Solver                  Solver.hs:111:9-37         317      41809    3.2    9.3     3.2    9.3
+       replaceCell.ending      Solver                  Solver.hs:110:9-49         327      41809    0.4    0.0     0.4    0.0
+       replaceCell.index       Solver                  Solver.hs:109:9-27         320      41809    0.8    0.3     0.8    0.3
+       replaceCell.x           Solver                  Solver.hs:107:9-25         321      41809    0.0    0.0     0.0    0.0
+        unPositionX            Cell                    Cell.hs:6:5-15             322      41809    0.0    0.0     0.0    0.0
+       replaceCell.y           Solver                  Solver.hs:108:9-25         323      41809    0.0    0.0     0.0    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             324      41809    0.0    0.0     0.0    0.0
+     validateCell              Solver                  Solver.hs:119:1-77         263      41809    1.7    1.5    48.5   38.0
+      validateField            Solver                  Solver.hs:(115,1)-(116,61) 264      67259   11.4    5.6    46.8   36.5
+       validateField.ints      Solver                  Solver.hs:116:9-61         265      67259    5.9    4.5    35.4   30.9
+        getRow                 Solver                  Solver.hs:(26,1)-(29,38)   268      41809    0.8    2.7     2.1    2.8
+         getRow.endingPart     Solver                  Solver.hs:29:9-38          269      41809    0.6    0.0     0.6    0.0
+         getRow.startFrom      Solver                  Solver.hs:28:9-25          270      41809    0.6    0.1     0.6    0.1
+         getRow.y              Solver                  Solver.hs:27:9-25          271      41809    0.0    0.0     0.0    0.0
+          unPositionY          Cell                    Cell.hs:7:5-15             272      41809    0.0    0.0     0.0    0.0
+        getColumn              Solver                  Solver.hs:(36,1)-(40,26)   329      15684    0.2    0.3     2.5    1.7
+         getColumn.c'          Solver                  Solver.hs:38:9-20          330      15684    0.4    0.0     0.4    0.0
+         getColumn.cs'         Solver                  Solver.hs:39:9-29          335      15684    0.2    0.1     0.2    0.1
+         getColumn.cs''        Solver                  Solver.hs:40:9-26          333      15684    0.0    0.0     1.7    1.4
+          every                Solver                  Solver.hs:(44,1)-(46,10)   334     126886    1.7    1.4     1.7    1.4
+         getColumn.x           Solver                  Solver.hs:37:9-25          331      15684    0.0    0.0     0.0    0.0
+          unPositionX          Cell                    Cell.hs:6:5-15             332      15684    0.0    0.0     0.0    0.0
+        getKvadrant            Solver                  Solver.hs:63:1-73          336       9766   13.5   10.6    21.5   15.7
+         cellToKvadrant        Solver                  Solver.hs:60:1-65          337     776540    6.8    5.1     8.0    5.1
+          unPositionX          Cell                    Cell.hs:6:5-15             338     776540    1.3    0.0     1.3    0.0
+          unPositionY          Cell                    Cell.hs:7:5-15             339     265613    0.0    0.0     0.0    0.0
+        cellsToInts            Solver                  Solver.hs:77:1-25          267          0    1.7    6.2     3.4    6.2
+         unValue               Cell                    Cell.hs:8:5-11             325     576701    1.7    0.0     1.7    0.0
+    isNo0OnBoard               Solver                  Solver.hs:151:1-51         246       8366    2.3    1.3     3.2    1.3
+     unValue                   Cell                    Cell.hs:8:5-11             251     283274    0.8    0.0     0.8    0.0
+    moveCursorToNext           Solver                  Solver.hs:(66,1)-(70,32)   278       4208    0.0    0.0     9.5   11.6
+     moveCursorToNext.c        Solver                  Solver.hs:68:9-83          287       4208    0.0    0.0     1.7    1.1
+      setCursorFalse           Solver                  Solver.hs:100:1-39         340       4207    0.0    0.0     0.0    0.0
+      findCellWithCursor       Solver                  Solver.hs:93:1-57          341          0    0.6    0.6     0.6    0.6
+       unCursor                Cell                    Cell.hs:4:5-12             342     132752    0.0    0.0     0.0    0.0
+      isCursor                 Solver                  Solver.hs:73:1-59          289          0    0.4    0.1     1.1    0.5
+       isCursor.\              Solver                  Solver.hs:73:39-58         290     132833    0.6    0.4     0.6    0.4
+        unCursor               Cell                    Cell.hs:4:5-12             291     132833    0.0    0.0     0.0    0.0
+     moveCursorToNext.cNext    Solver                  Solver.hs:67:9-55          306       4208    0.0    0.0     5.7    4.4
+      nextNotPrefilledCell     Solver                  Solver.hs:139:1-115        308       4208    5.1    4.4     5.7    4.4
+       unPrefilled             Cell                    Cell.hs:5:5-15             309     212303    0.0    0.0     0.0    0.0
+       unCursor                Cell                    Cell.hs:4:5-12             310     134185    0.6    0.0     0.6    0.0
+      setCursorTrue            Solver                  Solver.hs:97:1-37          307       4208    0.0    0.0     0.0    0.0
+     moveCursorToNext.cs'      Solver                  Solver.hs:69:9-34          298       4208    0.0    0.0     1.1    3.1
+      replaceCell              Solver                  Solver.hs:(106,1)-(111,37) 299       4208    0.0    0.1     1.1    3.1
+       replaceCell.(...)       Solver                  Solver.hs:110:9-49         302       4208    1.1    2.1     1.1    2.1
+       replaceCell.beginning   Solver                  Solver.hs:110:9-49         301       4208    0.0    0.0     0.0    0.0
+       replaceCell.cs'         Solver                  Solver.hs:111:9-37         300       4208    0.0    0.9     0.0    0.9
+       replaceCell.ending      Solver                  Solver.hs:110:9-49         328       4208    0.0    0.0     0.0    0.0
+       replaceCell.index       Solver                  Solver.hs:109:9-27         303       4208    0.0    0.0     0.0    0.0
+       replaceCell.x           Solver                  Solver.hs:107:9-25         304       4208    0.0    0.0     0.0    0.0
+        unPositionX            Cell                    Cell.hs:6:5-15             305       4208    0.0    0.0     0.0    0.0
+       replaceCell.y           Solver                  Solver.hs:108:9-25         311       4208    0.0    0.0     0.0    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             312       4208    0.0    0.0     0.0    0.0
+     moveCursorToNext.cs''     Solver                  Solver.hs:70:9-32          279       4208    0.0    0.0     1.1    3.0
+      replaceCell              Solver                  Solver.hs:(106,1)-(111,37) 280       4208    0.0    0.1     1.1    3.0
+       replaceCell.(...)       Solver                  Solver.hs:110:9-49         283       4208    0.8    2.0     0.8    2.0
+       replaceCell.beginning   Solver                  Solver.hs:110:9-49         282       4208    0.0    0.0     0.0    0.0
+       replaceCell.cs'         Solver                  Solver.hs:111:9-37         281       4208    0.2    0.9     0.2    0.9
+       replaceCell.ending      Solver                  Solver.hs:110:9-49         314       4208    0.0    0.0     0.0    0.0
+       replaceCell.index       Solver                  Solver.hs:109:9-27         284       4208    0.0    0.0     0.0    0.0
+       replaceCell.x           Solver                  Solver.hs:107:9-25         285       4208    0.0    0.0     0.0    0.0
+        unPositionX            Cell                    Cell.hs:6:5-15             286       4208    0.0    0.0     0.0    0.0
+       replaceCell.y           Solver                  Solver.hs:108:9-25         294       4208    0.0    0.0     0.0    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             295       4208    0.0    0.0     0.0    0.0
+    trackBackBoard             Solver                  Solver.hs:(142,1)-(148,36) 343       4157    0.2    0.1     7.0    8.9
+     trackBackBoard.cs'        Solver                  Solver.hs:147:9-34         359       4157    0.0    0.0     0.8    3.1
+      replaceCell              Solver                  Solver.hs:(106,1)-(111,37) 360       4157    0.0    0.1     0.8    3.1
+       replaceCell.(...)       Solver                  Solver.hs:110:9-49         363       4157    0.6    2.0     0.6    2.0
+       replaceCell.beginning   Solver                  Solver.hs:110:9-49         362       4157    0.0    0.0     0.0    0.0
+       replaceCell.cs'         Solver                  Solver.hs:111:9-37         361       4157    0.2    0.9     0.2    0.9
+       replaceCell.ending      Solver                  Solver.hs:110:9-49         374       4157    0.0    0.0     0.0    0.0
+       replaceCell.index       Solver                  Solver.hs:109:9-27         364       4157    0.0    0.0     0.0    0.0
+       replaceCell.x           Solver                  Solver.hs:107:9-25         365       4157    0.0    0.0     0.0    0.0
+        unPositionX            Cell                    Cell.hs:6:5-15             366       4157    0.0    0.0     0.0    0.0
+       replaceCell.y           Solver                  Solver.hs:108:9-25         371       4157    0.0    0.0     0.0    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             372       4157    0.0    0.0     0.0    0.0
+     trackBackBoard.cs''       Solver                  Solver.hs:148:9-36         344       4157    0.0    0.0     0.6    2.9
+      replaceCell              Solver                  Solver.hs:(106,1)-(111,37) 345       4157    0.0    0.1     0.6    2.9
+       replaceCell.(...)       Solver                  Solver.hs:110:9-49         348       4157    0.4    1.9     0.4    1.9
+       replaceCell.beginning   Solver                  Solver.hs:110:9-49         347       4157    0.0    0.0     0.0    0.0
+       replaceCell.cs'         Solver                  Solver.hs:111:9-37         346       4157    0.2    0.9     0.2    0.9
+       replaceCell.ending      Solver                  Solver.hs:110:9-49         373       4157    0.0    0.0     0.0    0.0
+       replaceCell.index       Solver                  Solver.hs:109:9-27         349       4157    0.0    0.0     0.0    0.0
+       replaceCell.x           Solver                  Solver.hs:107:9-25         350       4157    0.0    0.0     0.0    0.0
+        unPositionX            Cell                    Cell.hs:6:5-15             351       4157    0.0    0.0     0.0    0.0
+       replaceCell.y           Solver                  Solver.hs:108:9-25         357       4157    0.0    0.0     0.0    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             358       4157    0.0    0.0     0.0    0.0
+     trackBackBoard.curr       Solver                  Solver.hs:145:9-36         368       4157    0.0    0.0     1.3    0.6
+      findCellWithCursor       Solver                  Solver.hs:93:1-57          369          0    1.1    0.6     1.3    0.6
+       unCursor                Cell                    Cell.hs:4:5-12             370     137086    0.2    0.0     0.2    0.0
+     trackBackBoard.curr'      Solver                  Solver.hs:146:9-54         367       4157    0.0    0.0     0.0    0.0
+     trackBackBoard.prev       Solver                  Solver.hs:143:9-42         353       4157    0.0    0.0     4.0    2.2
+      previousNotPrefilledCell Solver                  Solver.hs:136:1-109        354       4157    3.8    2.2     4.0    2.2
+       unPrefilled             Cell                    Cell.hs:5:5-15             355     137086    0.2    0.0     0.2    0.0
+       unCursor                Cell                    Cell.hs:4:5-12             356      87512    0.0    0.0     0.0    0.0
+     trackBackBoard.prev'      Solver                  Solver.hs:144:9-40         352       4157    0.0    0.0     0.0    0.0
+    isOver9Board               Solver                  Solver.hs:133:1-52         260          0    2.7    2.0     3.2    2.0
+     unValue                   Cell                    Cell.hs:8:5-11             261     477934    0.4    0.0     0.4    0.0
+   intsToCells                 Cell                    Cell.hs:43:1-61            248          0    0.0    0.0     0.2    0.0
+    checkLength                Cell                    Cell.hs:(13,1)-(15,52)     255          1    0.0    0.0     0.0    0.0
+    convertToCells             Cell                    Cell.hs:(29,1)-(39,23)     249          1    0.2    0.0     0.2    0.0
+     convertToCells.\          Cell                    Cell.hs:(29,37)-(35,3)     252         81    0.0    0.0     0.0    0.0
+      convertToCells.third     Cell                    Cell.hs:39:5-23            253        162    0.0    0.0     0.0    0.0
+      convertToCells.first     Cell                    Cell.hs:37:5-23            292         81    0.0    0.0     0.0    0.0
+      convertToCells.second    Cell                    Cell.hs:38:5-24            296         81    0.0    0.0     0.0    0.0
+    convertToTriples           Cell                    Cell.hs:(21,1)-(24,46)     250          1    0.0    0.0     0.0    0.0
+     convertToTriples.\        Cell                    Cell.hs:21:34-60           254         81    0.0    0.0     0.0    0.0
+     convertToTriples.xs       Cell                    Cell.hs:22:9-40            293          1    0.0    0.0     0.0    0.0
+     convertToTriples.ys       Cell                    Cell.hs:24:9-46            297          1    0.0    0.0     0.0    0.0

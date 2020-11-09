@@ -1,0 +1,141 @@
+	Wed Oct 28 01:41 2020 Time and Allocation Profiling Report  (Final)
+
+	   sudoku +RTS -p -RTS
+
+	total time  =        0.95 secs   (946 ticks @ 1000 us, 1 processor)
+	total alloc = 1,559,441,744 bytes  (excludes profiling overheads)
+
+COST CENTRE              MODULE    SRC                       %time %alloc
+
+replaceCell.\            Solver    Solver.hs:(77,3)-(83,5)    27.7   35.7
+getRow                   Solver    Solver.hs:13:1-62          10.6    7.0
+unPositionX              Cell      Cell.hs:6:5-15              8.8    0.0
+replaceCell              Solver    Solver.hs:(76,1)-(84,6)     8.5   26.8
+getKvadrant              Solver    Solver.hs:33:1-73           5.9    5.6
+getColumn                Solver    Solver.hs:16:1-65           5.7    3.0
+validateField            Solver    Solver.hs:(87,1)-(88,61)    5.6    2.9
+findCellWithCursor       Solver    Solver.hs:63:1-57           5.6    3.7
+cellToKvadrant           Solver    Solver.hs:30:1-65           4.4    2.7
+validateField.ints       Solver    Solver.hs:88:9-61           2.5    2.3
+nextNotPrefilledCell     Solver    Solver.hs:111:1-115         2.5    2.3
+unPositionY              Cell      Cell.hs:7:5-15              2.5    0.0
+isOver9Board             Solver    Solver.hs:105:1-52          1.6    1.0
+unCursor                 Cell      Cell.hs:4:5-12              1.5    0.0
+unValue                  Cell      Cell.hs:8:5-11              1.2    0.0
+previousNotPrefilledCell Solver    Solver.hs:108:1-109         1.0    1.2
+cellsToInts              Solver    Solver.hs:47:1-25           0.8    3.3
+
+
+                                                                                                     individual      inherited
+COST CENTRE                    MODULE                  SRC                        no.     entries  %time %alloc   %time %alloc
+
+MAIN                           MAIN                    <built-in>                 121          0    0.0    0.0   100.0  100.0
+ CAF                           Cell                    <entire-module>            241          0    0.0    0.0     0.0    0.0
+  convertToCells               Cell                    Cell.hs:(29,1)-(38,23)     249          1    0.0    0.0     0.0    0.0
+  intsToCells                  Cell                    Cell.hs:42:1-61            247          1    0.0    0.0     0.0    0.0
+ CAF                           Solver                  <entire-module>            240          0    0.0    0.0     0.0    0.0
+  cellsToInts                  Solver                  Solver.hs:47:1-25          267          1    0.0    0.0     0.0    0.0
+  findCellWithCursor           Solver                  Solver.hs:63:1-57          281          1    0.0    0.0     0.0    0.0
+  isCursor                     Solver                  Solver.hs:43:1-59          296          1    0.0    0.0     0.0    0.0
+  isOver9Board                 Solver                  Solver.hs:105:1-52         260          1    0.0    0.0     0.0    0.0
+ CAF                           Main                    <entire-module>            239          0    0.0    0.0     0.0    0.0
+  main                         Main                    sudoku.hs:(6,1)-(10,22)    242          1    0.0    0.0     0.0    0.0
+ CAF                           GHC.Conc.Signal         <entire-module>            230          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Encoding         <entire-module>            219          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Encoding.Iconv   <entire-module>            217          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Exception        <entire-module>            211          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Handle.FD        <entire-module>            209          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.Handle.Internals <entire-module>            208          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.Show                <entire-module>            193          0    0.0    0.0     0.0    0.0
+ CAF                           System.Posix.Internals  <entire-module>            181          0    0.0    0.0     0.0    0.0
+ CAF                           GHC.IO.FD               <entire-module>            148          0    0.0    0.0     0.0    0.0
+ main                          Main                    sudoku.hs:(6,1)-(10,22)    243          0    0.0    0.0   100.0  100.0
+  showsPrec                    Cell                    Cell.hs:9:15-18            338         81    0.0    0.1     0.0    0.1
+  main.ints                    Main                    sudoku.hs:8:7-30           257          1    0.0    0.0     0.0    0.0
+   inputToInts                 Main                    sudoku.hs:26:1-70          258          1    0.0    0.0     0.0    0.0
+    inputToInts.\              Main                    sudoku.hs:26:50-66         259        110    0.0    0.0     0.0    0.0
+  main.solved                  Main                    sudoku.hs:9:7-39           244          1    0.0    0.0   100.0   99.9
+   solve                       Solver                  Solver.hs:(126,1)-(129,55) 245       8366    0.1    0.0    99.9   99.9
+    nextBoard                  Solver                  Solver.hs:(97,1)-(102,31)  263      41809    0.4    0.3    78.0   75.9
+     nextBoard.c               Solver                  Solver.hs:100:9-33         280      41809    0.0    0.0     5.5    3.1
+      findCellWithCursor       Solver                  Solver.hs:63:1-57          282          0    4.3    3.1     5.5    3.1
+       unCursor                Cell                    Cell.hs:4:5-12             283    1380556    1.2    0.0     1.2    0.0
+     nextBoard.c'              Solver                  Solver.hs:101:9-28         278      41809    0.0    0.0     0.2    0.3
+      incrementCell            Solver                  Solver.hs:73:1-47          279      41809    0.1    0.3     0.2    0.3
+       unValue                 Cell                    Cell.hs:8:5-11             308      41809    0.1    0.0     0.1    0.0
+     nextBoard.cs'             Solver                  Solver.hs:102:9-31         270      41809    0.0    0.0    31.0   44.6
+      replaceCell              Solver                  Solver.hs:(76,1)-(84,6)    271      41809    6.0   19.2    31.0   44.6
+       replaceCell.\           Solver                  Solver.hs:(77,3)-(83,5)    304    3386529   19.7   25.5    24.9   25.5
+        unPositionX            Cell                    Cell.hs:6:5-15             305    6773058    4.7    0.0     4.7    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             307     752562    0.6    0.0     0.6    0.0
+     validateCell              Solver                  Solver.hs:91:1-77          264      41809    0.8    0.8    40.9   27.6
+      validateField            Solver                  Solver.hs:(87,1)-(88,61)   265      67259    5.6    2.9    40.1   26.8
+       validateField.ints      Solver                  Solver.hs:88:9-61          266      67259    2.5    2.3    34.5   23.9
+        getRow                 Solver                  Solver.hs:13:1-62          269      41809   10.6    7.0    11.9    7.0
+         unPositionY           Cell                    Cell.hs:7:5-15             277    2607099    1.4    0.0     1.4    0.0
+        getColumn              Solver                  Solver.hs:16:1-65          309      15684    5.7    3.0     6.6    3.0
+         unPositionX           Cell                    Cell.hs:6:5-15             310    1177184    0.8    0.0     0.8    0.0
+        getKvadrant            Solver                  Solver.hs:33:1-73          311       9766    5.9    5.6    12.2    8.3
+         cellToKvadrant        Solver                  Solver.hs:30:1-65          312     776540    4.4    2.7     6.2    2.7
+          unPositionX          Cell                    Cell.hs:6:5-15             313     776540    1.4    0.0     1.4    0.0
+          unPositionY          Cell                    Cell.hs:7:5-15             314     265613    0.4    0.0     0.4    0.0
+        cellsToInts            Solver                  Solver.hs:47:1-25          268          0    0.8    3.3     1.3    3.3
+         unValue               Cell                    Cell.hs:8:5-11             306     576701    0.4    0.0     0.4    0.0
+    isNo0OnBoard               Solver                  Solver.hs:123:1-51         246       8366    0.7    0.7     1.0    0.7
+     unValue                   Cell                    Cell.hs:8:5-11             252     283274    0.2    0.0     0.2    0.0
+    moveCursorToNext           Solver                  Solver.hs:(36,1)-(40,32)   272       4208    0.0    0.0    10.7   11.9
+     moveCursorToNext.c        Solver                  Solver.hs:38:9-83          295       4208    0.0    0.0     1.6    0.6
+      setCursorFalse           Solver                  Solver.hs:70:1-39          315       4207    0.0    0.0     0.0    0.0
+      findCellWithCursor       Solver                  Solver.hs:63:1-57          316          0    0.8    0.3     0.8    0.3
+       unCursor                Cell                    Cell.hs:4:5-12             317     132752    0.0    0.0     0.0    0.0
+      isCursor                 Solver                  Solver.hs:43:1-59          297          0    0.2    0.0     0.7    0.2
+       isCursor.\              Solver                  Solver.hs:43:39-58         298     132833    0.4    0.2     0.5    0.2
+        unCursor               Cell                    Cell.hs:4:5-12             299     132833    0.1    0.0     0.1    0.0
+     moveCursorToNext.cNext    Solver                  Solver.hs:37:9-55          290       4208    0.1    0.0     2.9    2.3
+      nextNotPrefilledCell     Solver                  Solver.hs:111:1-115        292       4208    2.5    2.3     2.7    2.3
+       unPrefilled             Cell                    Cell.hs:5:5-15             293     212303    0.1    0.0     0.1    0.0
+       unCursor                Cell                    Cell.hs:4:5-12             294     134185    0.1    0.0     0.1    0.0
+      setCursorTrue            Solver                  Solver.hs:67:1-37          291       4208    0.0    0.0     0.0    0.0
+     moveCursorToNext.cs'      Solver                  Solver.hs:39:9-34          275       4208    0.0    0.0     4.1    4.5
+      replaceCell              Solver                  Solver.hs:(76,1)-(84,6)    276       4208    1.1    1.9     4.1    4.5
+       replaceCell.\           Solver                  Solver.hs:(77,3)-(83,5)    286     340848    2.5    2.6     3.1    2.6
+        unPositionX            Cell                    Cell.hs:6:5-15             287     681696    0.5    0.0     0.5    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             303      75744    0.0    0.0     0.0    0.0
+     moveCursorToNext.cs''     Solver                  Solver.hs:40:9-32          273       4208    0.0    0.0     2.1    4.5
+      replaceCell              Solver                  Solver.hs:(76,1)-(84,6)    274       4208    0.3    1.9     2.1    4.5
+       replaceCell.\           Solver                  Solver.hs:(77,3)-(83,5)    284     340848    1.3    2.6     1.8    2.6
+        unPositionX            Cell                    Cell.hs:6:5-15             285     681696    0.4    0.0     0.4    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             300      75744    0.1    0.0     0.1    0.0
+    trackBackBoard             Solver                  Solver.hs:(114,1)-(120,36) 318       4157    0.1    0.0     8.1   10.4
+     trackBackBoard.cs'        Solver                  Solver.hs:119:9-34         321       4157    0.0    0.0     3.5    4.4
+      replaceCell              Solver                  Solver.hs:(76,1)-(84,6)    322       4157    0.5    1.9     3.5    4.4
+       replaceCell.\           Solver                  Solver.hs:(77,3)-(83,5)    325     336717    2.5    2.5     3.0    2.5
+        unPositionX            Cell                    Cell.hs:6:5-15             326     673434    0.4    0.0     0.4    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             337      74826    0.0    0.0     0.0    0.0
+     trackBackBoard.cs''       Solver                  Solver.hs:120:9-36         319       4157    0.0    0.0     2.7    4.4
+      replaceCell              Solver                  Solver.hs:(76,1)-(84,6)    320       4157    0.5    1.9     2.7    4.4
+       replaceCell.\           Solver                  Solver.hs:(77,3)-(83,5)    323     336717    1.7    2.5     2.2    2.5
+        unPositionX            Cell                    Cell.hs:6:5-15             324     673434    0.5    0.0     0.5    0.0
+        unPositionY            Cell                    Cell.hs:7:5-15             336      74826    0.0    0.0     0.0    0.0
+     trackBackBoard.curr       Solver                  Solver.hs:117:9-36         328       4157    0.0    0.0     0.5    0.3
+      findCellWithCursor       Solver                  Solver.hs:63:1-57          329          0    0.4    0.3     0.5    0.3
+       unCursor                Cell                    Cell.hs:4:5-12             330     137086    0.1    0.0     0.1    0.0
+     trackBackBoard.curr'      Solver                  Solver.hs:118:9-54         327       4157    0.0    0.0     0.0    0.0
+     trackBackBoard.prev       Solver                  Solver.hs:115:9-42         332       4157    0.0    0.0     1.3    1.2
+      previousNotPrefilledCell Solver                  Solver.hs:108:1-109        333       4157    1.0    1.2     1.3    1.2
+       unPrefilled             Cell                    Cell.hs:5:5-15             334     137086    0.3    0.0     0.3    0.0
+       unCursor                Cell                    Cell.hs:4:5-12             335      87512    0.0    0.0     0.0    0.0
+     trackBackBoard.prev'      Solver                  Solver.hs:116:9-40         331       4157    0.0    0.0     0.0    0.0
+    isOver9Board               Solver                  Solver.hs:105:1-52         261          0    1.6    1.0     2.0    1.0
+     unValue                   Cell                    Cell.hs:8:5-11             262     477934    0.4    0.0     0.4    0.0
+   intsToCells                 Cell                    Cell.hs:42:1-61            248          0    0.0    0.0     0.1    0.0
+    checkLength                Cell                    Cell.hs:(13,1)-(15,52)     256          1    0.0    0.0     0.0    0.0
+    convertToTriples           Cell                    Cell.hs:(21,1)-(24,46)     251          1    0.0    0.0     0.0    0.0
+     convertToTriples.\        Cell                    Cell.hs:21:34-60           255         81    0.0    0.0     0.0    0.0
+     convertToTriples.xs       Cell                    Cell.hs:22:9-40            289          1    0.0    0.0     0.0    0.0
+     convertToTriples.ys       Cell                    Cell.hs:24:9-46            302          1    0.0    0.0     0.0    0.0
+    convertToCells             Cell                    Cell.hs:(29,1)-(38,23)     250          0    0.1    0.0     0.1    0.0
+     convertToCells.\          Cell                    Cell.hs:(29,34)-(35,3)     253         81    0.0    0.0     0.0    0.0
+      convertToCells.third     Cell                    Cell.hs:38:5-23            254        162    0.0    0.0     0.0    0.0
+      convertToCells.first     Cell                    Cell.hs:36:5-23            288         81    0.0    0.0     0.0    0.0
+      convertToCells.second    Cell                    Cell.hs:37:5-24            301         81    0.0    0.0     0.0    0.0
