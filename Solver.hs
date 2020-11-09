@@ -1,6 +1,7 @@
 module Solver (solve, solveDo) where
 
 import Data.List (nub)
+import Data.Maybe (isNothing)
 import Cell (Cell(..), intsToCells)
 -- import Debug.Trace (trace)
 
@@ -8,7 +9,7 @@ ints = [5,3,0,0,7,0,0,0,0,6,0,0,1,9,5,0,0,0,0,9,8,0,0,0,0,6,0,8,0,0,0,6,0,0,0,3,
 
 cells = intsToCells ints
 
-cell = Cell {unCursor = False, unPrefilled = False, unValue = 99999, unPositionX = 4, unPositionY = 7}
+cell = Cell {unCursor = False, unOrder = Just 0, unValue = 99999, unPositionX = 4, unPositionY = 7}
 
 -- Reading cells
 -- Version 1 (slowest):
@@ -162,10 +163,10 @@ isOver9Board :: [Cell] -> Bool
 isOver9Board =  not . null . filter ((9<) . unValue)
 
 previousNotPrefilledCell :: [Cell] -> Cell
-previousNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter ((False ==) . unPrefilled) cs
+previousNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter (isNothing . unOrder) cs
 
 nextNotPrefilledCell :: [Cell] -> Cell
-nextNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter ((False ==) . unPrefilled) $ reverse cs
+nextNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter (isNothing . unOrder) $ reverse cs
 
 trackBackBoard :: [Cell] -> [Cell]
 trackBackBoard cs = cs''

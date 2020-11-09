@@ -2,12 +2,12 @@ module Cell (Cell(..), intsToCells) where
 
 data Cell = Cell {
     unCursor :: Bool,
-    unPrefilled :: Bool,
+    unOrder :: Maybe Int,
     unPositionX :: Int,
     unPositionY :: Int,
     unValue :: Int
   } deriving (Show, Eq, Ord)
--- Cell { unCursor = False, unPrefilled = False, unValue = 5, unPositionX = 0, unPositionY = 0 }
+-- Cell { unCursor = False, unOrder = Nothing, unValue = 5, unPositionX = 0, unPositionY = 0 }
 
 checkLength :: [Int] -> [Int]
 checkLength list 
@@ -28,7 +28,7 @@ convertToTriples vs = map (\i -> (xs !! i, ys !! i, vs !! i)) [0..80]
 convertToCells :: [(PositionX, PositionY, Int)] -> [Cell]
 convertToCells ts = map (\triple -> Cell {
     unCursor = False,
-    unPrefilled = (third triple) /= 0,
+    unOrder = if (third triple) == 0 then Nothing else Just 0, -- Nothing when prefilled, Just Int when given solve order
     unPositionX = first triple,
     unPositionY = second triple, 
     unValue = third triple
@@ -37,7 +37,7 @@ convertToCells ts = map (\triple -> Cell {
     first (x, _, _) = x
     second (_, x, _) = x
     third (_, _, x) = x
--- [Cell {unCursor = False, unPrefilled = True, unValue = 5, unPositionX = 1, unPositionY = 1},Cell {unCursor = False, unPrefilled = True, unValue = 3, unPositionX = 2, unPositionY = 1},Cell {unCursor = False, unPrefilled = False, unValue = 0, unPositionX = 3, unPositionY = 1}...]
+-- [Cell {unCursor = False, unOrder = Nothing, unValue = 5, unPositionX = 1, unPositionY = 1},Cell {unCursor = False, unOrder = Nothing, unValue = 3, unPositionX = 2, unPositionY = 1},Cell {unCursor = False, unOrder = Just 0, unValue = 0, unPositionX = 3, unPositionY = 1}...]
 
 intsToCells :: [Int] -> [Cell]
 intsToCells = convertToCells . convertToTriples . checkLength
