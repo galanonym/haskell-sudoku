@@ -1,5 +1,5 @@
 import Cell (intsToCells)
-import Solver (solve, solveDo)
+import Solver (solve)
 import Data.Char (digitToInt)
 
 main :: IO ()
@@ -26,7 +26,12 @@ inputToInts :: [Char] -> [Int]
 inputToInts cs =  map digitToInt $ filter (\c -> elem c ['0'..'9']) cs
 
 -- @todo
--- Add unOrder to Cell and use that to find next / previous cell (remove unPrefilled, should not be needed)
+-- unOrder does not need to be Maybe, we can order prefilled cells to be solved last
+-- Cells should set cursor on first cell that is not prefilled
+-- Solver should move to next cursor after the board is solved
+-- Then nextNotPrefilledCell' would be much simpler, without case where there is no Cursor on board
+
+-- Use unOrder to find next / previous cell
 -- unOrder could be generated based on how populated are prefilled rows, columns and kvadrants 
 -- Make Solver import two functions solve and solveAsSteps
 -- solve just gives result
