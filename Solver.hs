@@ -1,7 +1,7 @@
-module Solver (solve, solveDo) where
+module Solver (solve) where
 
 import Data.List (nub)
-import Data.Maybe (isNothing)
+import Data.Maybe (isJust, isNothing, listToMaybe, fromMaybe)
 import Cell (Cell(..), intsToCells)
 -- import Debug.Trace (trace)
 
@@ -92,13 +92,6 @@ getKvadrant c cs = (a1:a2:a3:a4:a5:a6:a7:a8:a9:[])
 -- everyThirds _ (a1:a2:[]) = []
 -- everyThirds n (a1:a2:a3:ys) = a1:a2:a3:(everyThirds n $ drop n ys)
 
-fillOrder :: [Cell] -> Int -> [Cell]
-fillOrder [] _ = []
-fillOrder (c:cs) i
-  | (isNothing $ unOrder c) == True = c : (fillOrder cs i)
-  | otherwise = c' : (fillOrder cs (i + 1)) 
-    where c' = c { unOrder = Just i }
-
 moveCursorToNext :: [Cell] -> [Cell]
 moveCursorToNext cs = cs'' 
   where cNext = setCursorTrue $ nextNotPrefilledCell cs
@@ -170,10 +163,20 @@ isOver9Board :: [Cell] -> Bool
 isOver9Board =  not . null . filter ((9<) . unValue)
 
 previousNotPrefilledCell :: [Cell] -> Cell
-previousNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter (isNothing . unOrder) cs
+previousNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter (isJust . unOrder) cs
 
 nextNotPrefilledCell :: [Cell] -> Cell
-nextNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter (isNothing . unOrder) $ reverse cs
+nextNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter (isJust . unOrder) $ reverse cs
+
+nextNotPrefilledCell' cs = cellNext 
+  where mc = listToMaybe $ filter unCursor cs -- Maybe Cell with cursor
+        mOrderNext = maybe Nothing (\c -> Just (((fromMaybe 0 $ unOrder c)) + 1)) mc 
+        orderNext = fromMaybe 0 mOrderNext
+        cellNext = head $ filter ((Just orderNext ==) . unOrder) cs
+
+-- find cell with cursor
+-- if none then take one with unOrder = Just 0
+-- if found take one with unOrder = Just +1 
 
 trackBackBoard :: [Cell] -> [Cell]
 trackBackBoard cs = cs''
@@ -196,13 +199,3 @@ solve cs
 -- mutating
 printBoard :: [Cell] -> IO ()
 printBoard = putStr . cellsToString
-
-solveDo :: [Cell] -> IO ()
-solveDo cs 
-  | isNo0OnBoard cs = do 
-    printBoard cs
-  | isOver9Board cs = solveDo $ nextBoard $ trackBackBoard cs
-  | otherwise = do
-    printBoard cs
-    putStr "\n"
-    solveDo $ nextBoard $ moveCursorToNext cs
