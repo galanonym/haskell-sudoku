@@ -92,6 +92,13 @@ getKvadrant c cs = (a1:a2:a3:a4:a5:a6:a7:a8:a9:[])
 -- everyThirds _ (a1:a2:[]) = []
 -- everyThirds n (a1:a2:a3:ys) = a1:a2:a3:(everyThirds n $ drop n ys)
 
+fillOrder :: [Cell] -> Int -> [Cell]
+fillOrder [] _ = []
+fillOrder (c:cs) i
+  | (isNothing $ unOrder c) == True = c : (fillOrder cs i)
+  | otherwise = c' : (fillOrder cs (i + 1)) 
+    where c' = c { unOrder = Just i }
+
 moveCursorToNext :: [Cell] -> [Cell]
 moveCursorToNext cs = cs'' 
   where cNext = setCursorTrue $ nextNotPrefilledCell cs
