@@ -1,5 +1,7 @@
 module Cell (Cell(..), intsToCells) where
 
+import Data.Maybe (isNothing, listToMaybe)
+
 data Cell = Cell {
     unCursor :: Bool,
     unOrder :: Maybe Int,
@@ -28,7 +30,7 @@ convertToTriples vs = map (\i -> (xs !! i, ys !! i, vs !! i)) [0..80]
 convertToCells :: [(PositionX, PositionY, Int)] -> [Cell]
 convertToCells ts = map (\triple -> Cell {
     unCursor = False,
-    unOrder = if (third triple) == 0 then Nothing else Just 0, -- Nothing when prefilled, Just Int when given solve order
+    unOrder = if (third triple) == 0 then Just 0 else Nothing, -- Nothing when prefilled, 0 means to be prefilled, so we fill it with Just 0
     unPositionX = first triple,
     unPositionY = second triple, 
     unValue = third triple
@@ -40,4 +42,13 @@ convertToCells ts = map (\triple -> Cell {
 -- [Cell {unCursor = False, unOrder = Nothing, unValue = 5, unPositionX = 1, unPositionY = 1},Cell {unCursor = False, unOrder = Nothing, unValue = 3, unPositionX = 2, unPositionY = 1},Cell {unCursor = False, unOrder = Just 0, unValue = 0, unPositionX = 3, unPositionY = 1}...]
 
 intsToCells :: [Int] -> [Cell]
-intsToCells = convertToCells . convertToTriples . checkLength
+intsToCells = fillOrder 0 . convertToCells . convertToTriples . checkLength
+
+fillOrder :: Int -> [Cell] -> [Cell]
+fillOrder _ [] = []
+fillOrder i (c:cs)
+  | (isNothing $ unOrder c) == True = c : (fillOrder i cs)
+  | otherwise = c' : (fillOrder (i + 1) cs) 
+    where c' = c { unOrder = Just i }
+
+-- setCursorOnFirst
