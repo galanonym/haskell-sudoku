@@ -1,15 +1,20 @@
 module Cell (Cell(..), intsToCells) where
 
-import Data.Maybe (isNothing, listToMaybe)
-
 data Cell = Cell {
     unCursor :: Bool,
-    unOrder :: Maybe Int,
+    unOrder :: Int,
     unPositionX :: Int,
     unPositionY :: Int,
     unValue :: Int
   } deriving (Show, Eq, Ord)
 -- Cell { unCursor = False, unOrder = Nothing, unValue = 5, unPositionX = 0, unPositionY = 0 }
+
+-- testing
+ints :: [Int]
+ints = [5,3,0,0,7,0,0,0,0,6,0,0,1,9,5,0,0,0,0,9,8,0,0,0,0,6,0,8,0,0,0,6,0,0,0,3,4,0,0,8,0,3,0,0,1,7,0,0,0,2,0,0,0,6,0,6,0,0,0,0,2,8,0,0,0,0,4,1,9,0,0,5,0,0,0,0,8,0,0,7,9]
+
+cells :: [Cell]
+cells = intsToCells ints
 
 checkLength :: [Int] -> [Int]
 checkLength list 
@@ -30,7 +35,7 @@ convertToTriples vs = map (\i -> (xs !! i, ys !! i, vs !! i)) [0..80]
 convertToCells :: [(PositionX, PositionY, Int)] -> [Cell]
 convertToCells ts = map (\triple -> Cell {
     unCursor = False,
-    unOrder = if (third triple) == 0 then Just 0 else Nothing, -- Nothing when prefilled, 0 means to be prefilled, so we fill it with Just 0
+    unOrder = (-1), -- -1 means that it needs to be filled 
     unPositionX = first triple,
     unPositionY = second triple, 
     unValue = third triple
@@ -44,11 +49,18 @@ convertToCells ts = map (\triple -> Cell {
 intsToCells :: [Int] -> [Cell]
 intsToCells = fillOrder 0 . convertToCells . convertToTriples . checkLength
 
+-- Unprefilled
 fillOrder :: Int -> [Cell] -> [Cell]
 fillOrder _ [] = []
 fillOrder i (c:cs)
-  | (isNothing $ unOrder c) == True = c : (fillOrder i cs)
+  | 0 /= unValue c = c : (fillOrder i cs) -- prefilled cells have 0 as value
   | otherwise = c' : (fillOrder (i + 1) cs) 
-    where c' = c { unOrder = Just i }
+    where c' = c { unOrder = i }
+
+findOrderHighest (c:cs) = foldr binF accStart cs
+  where binF c acc = if unOrder c > acc then unOrder c else acc
+        accStart = unOrder c
+
+-- fillOrderPrefilled :: Int -> [Cell] -> [Cell]
 
 -- setCursorOnFirst
