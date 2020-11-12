@@ -26,6 +26,9 @@ inputToInts :: [Char] -> [Int]
 inputToInts cs =  map digitToInt $ filter (\c -> elem c ['0'..'9']) cs
 
 -- @todo
+-- Fix solver solve function to first solve then move cursor
+-- Fix nextNotPrefilledCell to use unOrder
+-- Fix previousNotPrefilledCell to use unOrder
 -- unOrder does not need to be Maybe, we can order prefilled cells to be solved last
 -- Cells should set cursor on first cell that is not prefilled
 -- Solver should move to next cursor after the board is solved

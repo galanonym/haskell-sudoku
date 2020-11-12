@@ -9,13 +9,19 @@ data Cell = Cell {
   } deriving (Show, Eq, Ord)
 -- Cell { unCursor = False, unOrder = Nothing, unValue = 5, unPositionX = 0, unPositionY = 0 }
 
--- testing
+-- Testing
 ints :: [Int]
 ints = [5,3,0,0,7,0,0,0,0,6,0,0,1,9,5,0,0,0,0,9,8,0,0,0,0,6,0,8,0,0,0,6,0,0,0,3,4,0,0,8,0,3,0,0,1,7,0,0,0,2,0,0,0,6,0,6,0,0,0,0,2,8,0,0,0,0,4,1,9,0,0,5,0,0,0,0,8,0,0,7,9]
 
 cells :: [Cell]
 cells = intsToCells ints
 
+-- Exported
+intsToCells :: [Int] -> [Cell]
+intsToCells ints = setCursorOnFirst $ fillOrderPrefilled (findOrderHighest cellsVacant) cellsVacant
+  where cellsVacant = fillOrderVacant 0 $ convertToCells $ convertToTriples $ checkLength ints
+
+-- Other functions
 checkLength :: [Int] -> [Int]
 checkLength list 
   | 81 == (length list) = list
@@ -46,21 +52,27 @@ convertToCells ts = map (\triple -> Cell {
     third (_, _, x) = x
 -- [Cell {unCursor = False, unOrder = Nothing, unValue = 5, unPositionX = 1, unPositionY = 1},Cell {unCursor = False, unOrder = Nothing, unValue = 3, unPositionX = 2, unPositionY = 1},Cell {unCursor = False, unOrder = Just 0, unValue = 0, unPositionX = 3, unPositionY = 1}...]
 
-intsToCells :: [Int] -> [Cell]
-intsToCells = fillOrder 0 . convertToCells . convertToTriples . checkLength
-
--- Unprefilled
-fillOrder :: Int -> [Cell] -> [Cell]
-fillOrder _ [] = []
-fillOrder i (c:cs)
-  | 0 /= unValue c = c : (fillOrder i cs) -- prefilled cells have 0 as value
-  | otherwise = c' : (fillOrder (i + 1) cs) 
+fillOrderVacant :: Int -> [Cell] -> [Cell]
+fillOrderVacant _ [] = []
+fillOrderVacant i (c:cs)
+  | 0 /= unValue c = c : (fillOrderVacant i cs) -- vacant cells have 0 as value
+  | otherwise = c' : (fillOrderVacant (i + 1) cs) 
     where c' = c { unOrder = i }
 
 findOrderHighest (c:cs) = foldr binF accStart cs
   where binF c acc = if unOrder c > acc then unOrder c else acc
         accStart = unOrder c
 
--- fillOrderPrefilled :: Int -> [Cell] -> [Cell]
+fillOrderPrefilled :: Int -> [Cell] -> [Cell]
+fillOrderPrefilled _ [] = []
+fillOrderPrefilled i (c:cs)
+  | 0 /= unValue c = c' : (fillOrderPrefilled (i + 1) cs) 
+  | otherwise = c : (fillOrderPrefilled i cs)
+    where c' = c { unOrder = i }
 
--- setCursorOnFirst
+setCursorOnFirst :: [Cell] -> [Cell]
+setCursorOnFirst [] = []
+setCursorOnFirst (c:cs)
+  | 0 == unOrder c = c' : (setCursorOnFirst cs)
+  | otherwise = c : (setCursorOnFirst cs)
+    where c' = c { unCursor = True }

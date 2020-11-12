@@ -9,7 +9,7 @@ ints = [5,3,0,0,7,0,0,0,0,6,0,0,1,9,5,0,0,0,0,9,8,0,0,0,0,6,0,8,0,0,0,6,0,0,0,3,
 
 cells = intsToCells ints
 
-cell = Cell {unCursor = False, unOrder = Just 0, unValue = 99999, unPositionX = 4, unPositionY = 7}
+cell = cells !! 0
 
 -- Reading cells
 -- Version 1 (slowest):
@@ -168,11 +168,11 @@ previousNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter 
 nextNotPrefilledCell :: [Cell] -> Cell
 nextNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter (isJust . unOrder) $ reverse cs
 
-nextNotPrefilledCell' cs = cellNext 
-  where mc = listToMaybe $ filter unCursor cs -- Maybe Cell with cursor
-        mOrderNext = maybe Nothing (\c -> Just (((fromMaybe 0 $ unOrder c)) + 1)) mc 
-        orderNext = fromMaybe 0 mOrderNext
-        cellNext = head $ filter ((Just orderNext ==) . unOrder) cs
+-- nextNotPrefilledCell' cs = cellNext 
+--   where mc = listToMaybe $ filter unCursor cs -- Maybe Cell with cursor
+--         mOrderNext = maybe Nothing (\c -> Just (((fromMaybe 0 $ unOrder c)) + 1)) mc 
+--         orderNext = fromMaybe 0 mOrderNext
+--         cellNext = head $ filter ((Just orderNext ==) . unOrder) cs
 
 -- find cell with cursor
 -- if none then take one with unOrder = Just 0
