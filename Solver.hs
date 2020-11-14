@@ -3,7 +3,7 @@ module Solver (solve) where
 import Data.List (nub)
 import Data.Maybe (isJust, isNothing, listToMaybe, fromMaybe)
 import Cell (Cell(..), intsToCells)
--- import Debug.Trace (trace)
+import Debug.Trace (trace)
 
 ints = [5,3,0,0,7,0,0,0,0,6,0,0,1,9,5,0,0,0,0,9,8,0,0,0,0,6,0,8,0,0,0,6,0,0,0,3,4,0,0,8,0,3,0,0,1,7,0,0,0,2,0,0,0,6,0,6,0,0,0,0,2,8,0,0,0,0,4,1,9,0,0,5,0,0,0,0,8,0,0,7,9]
 
@@ -94,13 +94,16 @@ getKvadrant c cs = (a1:a2:a3:a4:a5:a6:a7:a8:a9:[])
 
 moveCursorToNext :: [Cell] -> [Cell]
 moveCursorToNext cs = cs'' 
-  where cNext = setCursorTrue $ nextNotPrefilledCell cs
-        c = if isCursor cs then setCursorFalse $ findCellWithCursor cs else cs !! 0 -- just return first cell dont replace it
+  where cNext = setCursorTrue $ nextCell cs
+        c = setCursorFalse $ findCellWithCursor cs
         cs' = replaceCell cs cNext
         cs'' = replaceCell cs' c
 
-isCursor :: [Cell] -> Bool
-isCursor = not . null . filter (\c -> (unCursor c) == True)
+setCursorTrue :: Cell -> Cell
+setCursorTrue c = c {unCursor = True}
+
+setCursorFalse :: Cell -> Cell
+setCursorFalse c = c {unCursor = False}
 
 -- Converting cells to other formats
 cellsToInts :: [Cell] -> [Int]
@@ -122,16 +125,6 @@ cellsToString = flip (++) "\n" . insertBetweenString 12 '\n' . insertBetweenStri
 findCellWithCursor :: [Cell] -> Cell
 findCellWithCursor = head . filter ((True ==) . unCursor)
 
--- Operations
-setCursorTrue :: Cell -> Cell
-setCursorTrue c = c {unCursor = True}
-
-setCursorFalse :: Cell -> Cell
-setCursorFalse c = c {unCursor = False}
-
-incrementCell :: Cell -> Cell
-incrementCell c = c { unValue = 1 + unValue c }
-
 replaceCell :: [Cell] -> Cell -> [Cell]
 replaceCell cs c = cs'
   where x = unPositionX c
@@ -148,9 +141,6 @@ validateField cs c getFunction = ints == nub ints
 validateCell :: [Cell] -> Cell -> Bool
 validateCell cs c = all (validateField cs c) [getRow, getColumn, getKvadrant]
 
-isBoardValid :: [Cell] -> Bool
-isBoardValid cs = and $ map (validateCell cs) cs
-
 nextBoard :: [Cell] -> [Cell]
 nextBoard cs
   | True == validateCell cs' c' = cs'
@@ -159,28 +149,29 @@ nextBoard cs
         c' = incrementCell c
         cs' = replaceCell cs c'
 
+incrementCell :: Cell -> Cell
+incrementCell c = c { unValue = 1 + unValue c }
+
 isOver9Board :: [Cell] -> Bool
 isOver9Board =  not . null . filter ((9<) . unValue)
 
-previousNotPrefilledCell :: [Cell] -> Cell
-previousNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter (isJust . unOrder) cs
+nextCell :: [Cell] -> Cell
+nextCell cs = findCellWithOrder orderNext cs
+  where c = findCellWithCursor cs
+        orderNext = (+1) $ unOrder c
 
-nextNotPrefilledCell :: [Cell] -> Cell
-nextNotPrefilledCell cs = last $ takeWhile ((False ==) . unCursor) $ filter (isJust . unOrder) $ reverse cs
+prevCell :: [Cell] -> Cell
+prevCell cs = findCellWithOrder orderPrev' cs
+  where c = findCellWithCursor cs
+        orderPrev = (unOrder c) - 1
+        orderPrev' = if (orderPrev < 0) then 0 else orderPrev
 
--- nextNotPrefilledCell' cs = cellNext 
---   where mc = listToMaybe $ filter unCursor cs -- Maybe Cell with cursor
---         mOrderNext = maybe Nothing (\c -> Just (((fromMaybe 0 $ unOrder c)) + 1)) mc 
---         orderNext = fromMaybe 0 mOrderNext
---         cellNext = head $ filter ((Just orderNext ==) . unOrder) cs
-
--- find cell with cursor
--- if none then take one with unOrder = Just 0
--- if found take one with unOrder = Just +1 
+findCellWithOrder :: Int -> [Cell] -> Cell
+findCellWithOrder o cs = head $ filter ((o ==) . unOrder) cs
 
 trackBackBoard :: [Cell] -> [Cell]
 trackBackBoard cs = cs''
-  where prev = previousNotPrefilledCell cs
+  where prev = prevCell cs
         prev' = prev { unCursor = True }
         curr = findCellWithCursor cs
         curr' = curr { unValue = 0, unCursor = False }
@@ -193,8 +184,8 @@ isNo0OnBoard cs = [] == filter ((0==) . unValue) cs
 solve :: [Cell] -> [Cell]
 solve cs
   | isNo0OnBoard cs = cs
-  | isOver9Board cs = solve $ nextBoard $ trackBackBoard cs
-  | otherwise = solve $ nextBoard $ moveCursorToNext cs
+  | isOver9Board cs = solve $ trackBackBoard $ nextBoard cs
+  | otherwise = solve $ moveCursorToNext $ nextBoard cs
 
 -- mutating
 printBoard :: [Cell] -> IO ()

@@ -18,7 +18,7 @@ cells = intsToCells ints
 
 -- Exported
 intsToCells :: [Int] -> [Cell]
-intsToCells ints = setCursorOnFirst $ fillOrderPrefilled (findOrderHighest cellsVacant) cellsVacant
+intsToCells ints = setCursorOnFirst $ fillOrderPrefilled ((findOrderHighest cellsVacant) + 1) cellsVacant
   where cellsVacant = fillOrderVacant 0 $ convertToCells $ convertToTriples $ checkLength ints
 
 -- Other functions
