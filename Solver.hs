@@ -123,7 +123,10 @@ cellsToString :: [Cell] -> String
 cellsToString = flip (++) "\n" . insertBetweenString 12 '\n' . insertBetweenString 3 ' ' . intsToChars . cellsToInts
 
 findCellWithCursor :: [Cell] -> Cell
-findCellWithCursor = head . filter ((True ==) . unCursor)
+findCellWithCursor cs = head $ [c | c <- cs, unCursor c == True]
+-- findCellWithCursor = head . filter ((True ==) . unCursor)
+-- findCellWithCursor cs = foldr (\c acc -> if True == unCursor c then c else acc) (cs !! 0) cs
+-- findCellWithCursor cs = fromMaybe (cs !! 0) $ find ((True ==) . unCursor) cs
 
 replaceCell :: [Cell] -> Cell -> [Cell]
 replaceCell cs c = cs'
@@ -186,6 +189,7 @@ solve cs
   | isNo0OnBoard cs = cs
   | isOver9Board cs = solve $ trackBackBoard $ nextBoard cs
   | otherwise = solve $ moveCursorToNext $ nextBoard cs
+-- @todo add one findCellWithCursor here and inject it in trackBackBoard, moveCursorToNext, nextBoard, prevCell, nextCell
 
 -- mutating
 printBoard :: [Cell] -> IO ()
