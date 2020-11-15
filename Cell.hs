@@ -16,11 +16,6 @@ ints = [5,3,0,0,7,0,0,0,0,6,0,0,1,9,5,0,0,0,0,9,8,0,0,0,0,6,0,8,0,0,0,6,0,0,0,3,
 cells :: [Cell]
 cells = intsToCells ints
 
--- Exported
-intsToCells :: [Int] -> [Cell]
-intsToCells ints = setCursorOnFirst $ fillOrderPrefilled ((findOrderHighest cellsVacant) + 1) cellsVacant
-  where cellsVacant = fillOrderVacant 0 $ convertToCells $ convertToTriples $ checkLength ints
-
 -- Other functions
 checkLength :: [Int] -> [Int]
 checkLength list 
@@ -76,3 +71,10 @@ setCursorOnFirst (c:cs)
   | 0 == unOrder c = c' : (setCursorOnFirst cs)
   | otherwise = c : (setCursorOnFirst cs)
     where c' = c { unCursor = True }
+
+-- Exported
+intsToCells :: [Int] -> [Cell]
+intsToCells ints = setCursorOnFirst $ fillOrderPrefilled orderPrefilledStart cellsVacant
+  where cellsVacant = fillOrderVacant 0 $ convertToCells $ convertToTriples $ checkLength ints
+        orderPrefilledStart = (findOrderHighest cellsVacant) + 1
+

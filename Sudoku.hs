@@ -26,6 +26,9 @@ inputToInts :: [Char] -> [Int]
 inputToInts cs =  map digitToInt $ filter (\c -> elem c ['0'..'9']) cs
 
 -- @todo
+-- Move filling of unOrder values to next module
+-- In Solver solve function, add "where c = findCellWithCursor cs" and inject it in trackBackBoard, moveCursorToNext, nextBoard, prevCell, nextCell
+  -- This solution complcates a lot of code, much less clear, gives head empty list exceptions
 -- Fix solver solve function to first solve then move cursor
 -- Fix nextNotPrefilledCell to use unOrder
 -- Fix previousNotPrefilledCell to use unOrder

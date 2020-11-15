@@ -189,7 +189,6 @@ solve cs
   | isNo0OnBoard cs = cs
   | isOver9Board cs = solve $ trackBackBoard $ nextBoard cs
   | otherwise = solve $ moveCursorToNext $ nextBoard cs
--- @todo add one findCellWithCursor here and inject it in trackBackBoard, moveCursorToNext, nextBoard, prevCell, nextCell
 
 -- mutating
 printBoard :: [Cell] -> IO ()
