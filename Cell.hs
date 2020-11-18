@@ -1,12 +1,12 @@
 module Cell (Cell(..), intsToCells) where
 
 data Cell = Cell {
-    getRow :: Int,
-    getColumn :: Int,
-    getKvadrant :: Int,
-    getValue :: Int,
-    getIsFixed :: Bool
-  } deriving (Show, Eq, Ord)
+  getRow :: Int,
+  getColumn :: Int,
+  getKvadrant :: Int,
+  getValue :: Int,
+  getIsFixed :: Bool -- Flexible is opposite of Fixed
+} deriving (Show, Eq, Ord)
 -- Cell { unCursor = False, unOrder = Nothing, unValue = 5, unPositionX = 0, unPositionY = 0 }
 
 -- Testing
