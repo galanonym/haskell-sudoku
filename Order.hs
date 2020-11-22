@@ -9,7 +9,7 @@ import Cell (Cell(..))
 cellsOrderLeftRight :: [Cell] -> [Cell] -> [Cell]
 cellsOrderLeftRight acc [] = acc
 cellsOrderLeftRight acc (c:cs) = cellsOrderLeftRight acc' cs
-  where index = fromMaybe 0 $ findIndex (\c -> getValue c /= 0) acc
+  where index = fromMaybe 0 $ findIndex ((0 /=) . getValue) acc
         part1 = fst $ splitAt index acc
         part2 = snd $ splitAt index acc
         acc' = 
