@@ -17,6 +17,14 @@ board = Board {
   getPointer = 0
 }
 
+-- @todo 
+  -- add missing functions: 
+    -- isNo0OnBoard 
+    -- isOver9OnBoard 
+    -- boardTrackBack
+  -- rewrite solve function to work with Board type
+  -- add better ordering function cellsOrderDenseFirst
+
 -- solve :: Board -> Board 
 -- solve cs
 --   | isNo0OnBoard cs = cs
@@ -56,4 +64,3 @@ boardToColumn Board{getPointer=p, getCells=cs} = [getValue c | c <-cs, getRow c 
 boardToKvadrant :: Board -> [Int]
 boardToKvadrant Board{getPointer=p, getCells=cs} = [getValue c | c <-cs, getKvadrant c == kvadrant]
   where kvadrant = getKvadrant $ cs !! p
-
