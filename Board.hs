@@ -1,11 +1,16 @@
-module Printer (printBoard) where
+module Board (Board(..), printBoard) where
 
 import Cell (Cell(..))
 
 -- export
 
-printBoard :: [Cell] -> IO ()
-printBoard = putStr . cellsToString
+data Board = Board {
+  getCells :: [Cell],
+  getPointer :: Int
+} deriving (Show)
+
+printBoard :: Board -> IO ()
+printBoard = putStr . cellsToString . getCells
 
 -- private
 
@@ -20,7 +25,7 @@ insertBetweenString n char xs
  | otherwise = take n xs ++ [char] ++ insertBetweenString n char (drop n xs)
 
 intsToChars :: [Int] -> [Char]
-intsToChars xs = map (head . show) xs -- show returns strings like "1" therefore head to convert to '1'
+intsToChars xs = map (\x -> if (x >= 10) then '!' else  head $ show x) xs -- show returns strings like "1" therefore head to convert to '1'
 
 cellsToInts :: [Cell] -> [Int]
 cellsToInts = map getValue

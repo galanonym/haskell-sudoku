@@ -4,8 +4,8 @@ data Cell = Cell {
   getRow :: Int,
   getColumn :: Int,
   getKvadrant :: Int,
-  getValue :: Int,
-  getIsFixed :: Bool -- Flexible is opposite of Fixed
+  getIsFixed :: Bool, -- Flexible is opposite of Fixed
+  getValue :: Int
 } deriving (Show, Eq, Ord)
 -- Cell { unCursor = False, unOrder = Nothing, unValue = 5, unPositionX = 0, unPositionY = 0 }
 
