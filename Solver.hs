@@ -19,13 +19,15 @@ board = Board {
 
 -- @todo 
   -- add printBoardSorted function for showing board with original sort
+  -- add Main/Sudoku.hs with IO
+  -- profile for speed
   -- add better ordering function cellsOrderDenseFirst
 
 solve :: Board -> Board 
 solve b
   | boardIsNo0s b = b
-  | boardIsOver9 b = solve $ boardNext $ boardTrackBack b 
-  | otherwise = solve $ boardNext $ boardCursorToNext b 
+  | boardIsOver9 b = solve $ boardIncrement $ boardTrackBack b 
+  | otherwise = solve $ boardIncrement $ boardCursorToNext b 
 
 boardIsNo0s :: Board -> Bool
 boardIsNo0s Board{ getCells = cs } = [] == filter ((0==) . getValue) cs
@@ -47,10 +49,10 @@ boardTrackBack b@Board{ getPointer = p, getCells = cs }
           pTB = p - 1
           bTB = Board { getPointer = pTB, getCells = csTB }
 
-boardNext :: Board -> Board
-boardNext b@Board{ getPointer = p, getCells = cs }
+boardIncrement :: Board -> Board
+boardIncrement b@Board{ getPointer = p, getCells = cs }
   | True == validateCellAtPointer b' = b'
-  | otherwise = boardNext b'
+  | otherwise = boardIncrement b'
   where c = cs !! p
         c' = c { getValue = 1 + getValue c } 
         b' = replaceCellAtPointer c' b
