@@ -18,18 +18,34 @@ board = Board {
 }
 
 -- @todo 
-  -- add missing functions: 
-    -- isNo0OnBoard 
-    -- isOver9OnBoard 
-    -- boardTrackBack
-  -- rewrite solve function to work with Board type
+  -- add printBoardSorted function for showing board with original sort
   -- add better ordering function cellsOrderDenseFirst
 
--- solve :: Board -> Board 
--- solve cs
---   | isNo0OnBoard cs = cs
---   | isOver9Board cs = solve $ nextBoard $ trackBackBoard cs
---   | otherwise = solve $ nextBoard $ moveCursorToNext cs
+solve :: Board -> Board 
+solve b
+  | boardIsNo0s b = b
+  | boardIsOver9 b = solve $ boardNext $ boardTrackBack b 
+  | otherwise = solve $ boardNext $ boardCursorToNext b 
+
+boardIsNo0s :: Board -> Bool
+boardIsNo0s Board{ getCells = cs } = [] == filter ((0==) . getValue) cs
+
+boardIsOver9 :: Board -> Bool
+boardIsOver9 Board{ getCells = cs } = not $ null $ filter ((9<) . getValue) cs
+
+boardCursorToNext :: Board -> Board
+boardCursorToNext Board { getPointer = p, getCells = cs } = Board { getPointer = p + 1, getCells = cs }
+
+boardTrackBack :: Board -> Board
+boardTrackBack b@Board{ getPointer = p, getCells = cs }
+  | pTB < 0 = error "Trackback not possible"
+  | otherwise = bTB
+    where c = cs !! p
+          c0 = c { getValue = 0 }
+          b0 = replaceCellAtPointer c0 b
+          csTB = getCells b0 -- TB - track back
+          pTB = p - 1
+          bTB = Board { getPointer = pTB, getCells = csTB }
 
 boardNext :: Board -> Board
 boardNext b@Board{ getPointer = p, getCells = cs }
