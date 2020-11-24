@@ -68,8 +68,8 @@ validateCellAtPointer :: Board -> Bool
 validateCellAtPointer b = all (validateCondition b) [boardToRow, boardToColumn, boardToKvadrant]
 
 validateCondition :: Board -> (Board -> [Int]) -> Bool
-validateCondition b checkFunction = ints == nub ints
-  where ints = filter (0 /=) $ checkFunction b  
+validateCondition b checkFunction = is == nub is
+  where is = filter (0 /=) $ checkFunction b  
 
 boardToRow :: Board -> [Int]
 boardToRow Board{getPointer=p, getCells=cs} = [getValue c | c <-cs, getColumn c == column]
