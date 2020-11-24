@@ -1,11 +1,21 @@
-module Order (cellsOrderLeftRight) where
+module Order (boardOrderLeftRight, boardOrderOriginal) where
 
-import Data.List (findIndex)
+import Data.List (findIndex, sortBy)
 import Data.Maybe (fromMaybe)
 
 import Cell (Cell(..))
+import Board (Board(..))
 
 -- export
+
+boardOrderOriginal :: Board -> Board
+boardOrderOriginal Board{getPointer=p, getCells=cs} = Board{getPointer=p, getCells=cellsOrderOriginal cs}
+
+boardOrderLeftRight :: Board -> Board
+boardOrderLeftRight Board{getPointer=p, getCells=cs} = Board{getPointer=p, getCells=cellsOrderLeftRight [] cs}
+
+-- internal
+
 cellsOrderLeftRight :: [Cell] -> [Cell] -> [Cell]
 cellsOrderLeftRight acc [] = acc
 cellsOrderLeftRight acc (c:cs) = cellsOrderLeftRight acc' cs
@@ -15,3 +25,15 @@ cellsOrderLeftRight acc (c:cs) = cellsOrderLeftRight acc' cs
         acc' = 
           if (getValue c /= 0) then acc ++ [c]
           else part1 ++ [c] ++ part2
+
+cellsOrderOriginal :: [Cell] -> [Cell]
+cellsOrderOriginal cs = map (\np -> snd np) $ numberedPairsSort $ cellsToNumberedPairs [] cs 
+
+cellsToNumberedPairs :: [(Int, Cell)] -> [Cell] -> [(Int, Cell)]
+cellsToNumberedPairs acc [] = acc
+cellsToNumberedPairs acc (c:cs) = cellsToNumberedPairs acc' cs
+  where n = getRow c + getColumn c * 9  
+        acc' = acc ++ [(n, c)]
+
+numberedPairsSort :: [(Int, Cell)] -> [(Int, Cell)]
+numberedPairsSort = sortBy (\(a,_) (b,_) -> compare a b) 

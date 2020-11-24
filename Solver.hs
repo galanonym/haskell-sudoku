@@ -5,14 +5,14 @@ import Data.List (nub)
 
 import Cell (Cell(..), intsToCells)
 import Board (Board(..), printBoard)
-import Order (cellsOrderLeftRight)
+import Order (boardOrderLeftRight, boardOrderOriginal)
 
 ints = [5,3,0,0,7,0,0,0,0,6,0,0,1,9,5,0,0,0,0,9,8,0,0,0,0,6,0,8,0,0,0,6,0,0,0,3,4,0,0,8,0,3,0,0,1,7,0,0,0,2,0,0,0,6,0,6,0,0,0,0,2,8,0,0,0,0,4,1,9,0,0,5,0,0,0,0,8,0,0,7,9]
-cells = cellsOrderLeftRight [] $ intsToCells ints
+cells = intsToCells ints
 cell = cells !! 0
 cell' = cell {getValue = 1 + getValue cell}
 
-board = Board {
+board = boardOrderLeftRight $ Board {
   getCells = cells,
   getPointer = 0
 }
