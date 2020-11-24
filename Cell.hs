@@ -1,8 +1,8 @@
 module Cell (Cell(..), intsToCells) where
 
 data Cell = Cell {
-  getRow :: Int,
   getColumn :: Int,
+  getRow :: Int,
   getKvadrant :: Int,
   getIsFixed :: Bool, -- Flexible is opposite of Fixed
   getValue :: Int
@@ -38,8 +38,8 @@ cellToKvadrant x y = (x `div` 3) + (y `div` 3) * 3
 
 convertToCells :: [(PositionX, PositionY, Int)] -> [Cell]
 convertToCells ts = map (\triple -> Cell {
-    getRow = first triple,
-    getColumn = second triple, 
+    getColumn = first triple,
+    getRow = second triple, 
     getKvadrant = cellToKvadrant (first triple) (second triple),
     getValue = third triple,
     getIsFixed = 0 /= third triple

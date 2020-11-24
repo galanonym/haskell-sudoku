@@ -65,19 +65,19 @@ replaceCellAtPointer c b = Board{ getCells = cs, getPointer = p }
         cs = b1 ++ [c] ++ b2 
 
 validateCellAtPointer :: Board -> Bool
-validateCellAtPointer b = all (validateCondition b) [boardToRow, boardToColumn, boardToKvadrant]
+validateCellAtPointer b = all (validateCondition b) [boardToColumn, boardToRow, boardToKvadrant]
 
 validateCondition :: Board -> (Board -> [Int]) -> Bool
 validateCondition b checkFunction = is == nub is
   where is = filter (0 /=) $ checkFunction b  
 
-boardToRow :: Board -> [Int]
-boardToRow Board{getPointer=p, getCells=cs} = [getValue c | c <-cs, getColumn c == column]
-  where column = getColumn $ cs !! p
-
 boardToColumn :: Board -> [Int]
 boardToColumn Board{getPointer=p, getCells=cs} = [getValue c | c <-cs, getRow c == column]
   where column = getRow $ cs !! p
+
+boardToRow :: Board -> [Int]
+boardToRow Board{getPointer=p, getCells=cs} = [getValue c | c <-cs, getColumn c == column]
+  where column = getColumn $ cs !! p
 
 boardToKvadrant :: Board -> [Int]
 boardToKvadrant Board{getPointer=p, getCells=cs} = [getValue c | c <-cs, getKvadrant c == kvadrant]

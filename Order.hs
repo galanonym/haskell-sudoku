@@ -32,7 +32,7 @@ cellsOrderOriginal cs = map (\np -> snd np) $ numberedPairsSort $ cellsToNumbere
 cellsToNumberedPairs :: [(Int, Cell)] -> [Cell] -> [(Int, Cell)]
 cellsToNumberedPairs acc [] = acc
 cellsToNumberedPairs acc (c:cs) = cellsToNumberedPairs acc' cs
-  where n = getRow c + getColumn c * 9  
+  where n = getColumn c + getRow c * 9  
         acc' = acc ++ [(n, c)]
 
 numberedPairsSort :: [(Int, Cell)] -> [(Int, Cell)]
